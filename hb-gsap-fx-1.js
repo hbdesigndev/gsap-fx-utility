@@ -167,6 +167,14 @@ function animateHBGSAP(el) {
 
   let customScale = el.dataset.scale ? parseFloat(el.dataset.scale) : null;
 
+  let customRotation = el.dataset.rotation ? parseFloat(el.dataset.rotation) : null;
+  if (customRotation == null) {
+    const rotClass = Array.from(el.classList).find(cls => cls.startsWith('hb-rotation-'));
+    if (rotClass) {
+      customRotation = parseFloat(rotClass.replace('hb-rotation-', ''));
+    }
+  }
+
   const effects = el.dataset.style
     ? el.dataset.style.split(' ')
     : Object.keys(hbFXPresets).filter(key =>
@@ -216,6 +224,10 @@ function animateHBGSAP(el) {
 
       if ((key === 'scale-up' || key === 'scale-down') && customScale != null && !isNaN(customScale)) {
         fromCopy.scale = customScale;
+      }
+
+      if (key === 'rotate' && customRotation != null && !isNaN(customRotation)) {
+        fromCopy.rotation = customRotation;
       }
 
       if (key === 'blur-in') {
